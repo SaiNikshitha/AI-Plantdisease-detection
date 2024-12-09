@@ -11,8 +11,8 @@
     <h1>Welcome, Admin!</h1>
     <div class="overview-section">
       <h2>Overview</h2>
-      <p id="total-users">Total Users: </p>
-      <p id="total-uploads">Total Uploads: </p>
+      <p id="total-users">Total Users: <%= totalusers %></p>
+      <p id="total-uploads">Total Uploads: <%= totaluploads %> </p>
     </div>
     <div class="user-section">
       <h2>Manage Users</h2>
@@ -44,6 +44,74 @@
       </table>
     </div>
   </div>
-  <script src="admin-dashboard.js"></script>
+  <script>
+    async function fetchDashboardData() {
+  try {
+  
+
+
+    // Fetch Users
+    const usersRes = await fetch("/admin/users");
+    const users = await usersRes.json();
+    const usersTable = document.querySelector("#users-table tbody");
+    users.data.forEach((user) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${user.name}</td>
+        <td>${user.email}</td>
+        <td>${user.role}</td>
+        <td><button onclick="promoteUser('${user._id}')">Promote</button></td>
+      `;
+      usersTable.appendChild(row);
+    });
+
+    // Fetch Uploads
+    const uploadsRes = await fetch("/admin/uploads");
+    const uploads = await uploadsRes.json();
+    const uploadsTable = document.querySelector("#uploads-table tbody");
+    uploads.data.forEach((upload) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${upload.userId?.name || "N/A"}</td>
+        <td>${upload.imagePath}</td>
+        <td>${upload.diseaseLabel}</td>
+        <td>${upload.confidence}</td>
+        <td><button onclick="deleteUpload('${upload._id}')">Delete</button></td>
+      `;
+      uploadsTable.appendChild(row);
+    });
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+  }
+}
+
+async function promoteUser(userId) {
+  try {
+    await fetch(`/admin/users/${userId}/role`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ role: "admin" }),
+    });
+    alert("User promoted successfully");
+    location.reload();
+  } catch (error) {
+    console.error("Error promoting user:", error);
+  }
+}
+
+async function deleteUpload(uploadId) {
+  try {
+    await fetch(`/admin/uploads/${uploadId}`, { method: "DELETE" });
+    alert("Upload deleted successfully");
+    location.reload();
+  } catch (error) {
+    console.error("Error deleting upload:", error);
+  }
+}
+
+// Load data on page load
+fetchDashboardData();
+
+  </script>
 </body>
 </html>

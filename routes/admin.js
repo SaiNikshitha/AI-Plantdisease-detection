@@ -12,15 +12,7 @@ router.get("/", restrictto(["admin"]), async (req, res) => {
     const totalUsers = await User.countDocuments();
     const totalUploads = await Upload.countDocuments();
     const recentUploads = await Upload.find().sort({ timestamp: -1 }).limit(5).lean();
-    // res.json({
-    //   success: true,
-    //   data: {
-    //     totalUsers,
-    //     totalUploads,
-    //     recentUploads,
-    //   },
-    // });
-    res.render('admin');
+    res.render('admin',{totalusers:totalUsers,totaluploads:totalUploads});
   } catch (error) {
     console.error("Error fetching overview:", error);
     res.status(500).json({ success: false, message: "Server Error" });

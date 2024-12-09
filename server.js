@@ -36,9 +36,9 @@ const axios=require('axios');
 //  });
 // })
 
-connectdb("mongodb+srv://Gayathri:dooobdvBpLSLjw5w@cluster0.kucbd.mongodb.net/Project?retryWrites=true&w=majority&appName=Cluster0").then(()=>{
+connectdb(process.env.MONGO_URL).then(()=>{
   console.log("mongodb connected");
-  app.listen(5000,()=>{
+  app.listen(process.env.PORT || 5000,()=>{
     console.log('server listening on port 5000');
  });
 })
@@ -70,7 +70,9 @@ app.use('/auth',authroutes)
 // });
 
 
-app.use('/upload',restrictToLoggedinUserOnly,restrictto(["user"]),uploadroute);
+//distinct
+ 
+app.use('/upload',restrictToLoggedinUserOnly,restrictto(["user","admin"]),uploadroute);
 app.use('/',checkAuth,staticroute);
 
 app.use('/feedback',restrictToLoggedinUserOnly,restrictto(["user"]),feedbackroute);

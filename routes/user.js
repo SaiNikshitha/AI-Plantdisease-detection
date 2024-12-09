@@ -57,17 +57,24 @@ router.post('/login',async (req,res)=>{
         return res.status(401).json({ message: 'Invalid password' });
       }
  
-    const token=setUser(user);
-    console.log('Setting cookie...')
-    res.cookie("uid",token);
-    console.log("cookie set");
+      const token=setUser(user);
+      console.log('Setting cookie...')
+      res.cookie("uid",token);
+      console.log("cookie set");
+
+      if(user.role==="admin"){
+        res.redirect('/admin');
+      }
+      else{
+        res.redirect('/');
+      }
     
   
   
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' });
     }
-    res.redirect('/');
+   
   })
 
 module.exports=router;
