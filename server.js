@@ -29,7 +29,14 @@ const fs= require('fs');
 // const multer=require('multer');
 const axios=require('axios');
 
-connectdb("mongodb://127.0.0.1:27017/project").then(()=>{
+// connectdb("mongodb://127.0.0.1:27017/project").then(()=>{
+//   console.log("mongodb connected");
+//   app.listen(5000,()=>{
+//     console.log('server listening on port 5000');
+//  });
+// })
+
+connectdb("mongodb+srv://Gayathri:dooobdvBpLSLjw5w@cluster0.kucbd.mongodb.net/Project?retryWrites=true&w=majority&appName=Cluster0").then(()=>{
   console.log("mongodb connected");
   app.listen(5000,()=>{
     console.log('server listening on port 5000');
