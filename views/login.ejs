@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlantPulse | Login</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="stylesheet" href="newstyle.css">
+  <link rel="icon" type="image/jpg" href="images/Life.jpg">
+  <link rel="stylesheet" href="login-style.css">
+  <link rel="icon" type="image/jpg" href="./images/Life.jpg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <!-- bootstrap -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="form">
+      <h1 class="login">Login</h1>
+      <form action="/user/login" method="post">
+        <div class="input-group">
+          <input type="text" placeholder="Email or Username" required name="email" />
+          <i class="bi bi-envelope"></i>
+        </div>
+        <div class="input-group">
+          <input type="password" placeholder="Password" required name="password" />
+          <i class="bi bi-lock"></i>
+        </div>
+        <button class="submit-btn" type="submit">Log In</button>
+        <div class="forgot"><a href="forgot.html">Forgot Password?</a></div>
+        <div class="divider"><span>Or</span></div>
+        <div class="signup-link">
+          <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

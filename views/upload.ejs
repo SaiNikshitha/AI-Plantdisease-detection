@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlantPulse | Upload&Diagnosis</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="newstyle.css">
+    <link rel="icon" type="image/jpg" href="images/Life.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css">
+  
+    <style>
+        #diagnostic {
+            padding: 18px 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Diagnostic Section -->
+    <div class="container" data-aos="zoom-out">
+        <section id="diagnostic" class="section">
+            <div class="content">
+                <div class="info">
+                    <h2>Upload & Diagnose</h2>
+                    <p>Use the form below to upload an image of your plant for diagnosis. Make sure the image is clear,
+                        well-lit, and focuses on the affected areas of the plant.Once uploaded, our AI will analyze the
+                        image and provide a detailed report on the health of your plant.</p>
+                    <form id="diagnoseForm" enctype="multipart/form-data">
+                        <input type="file" class="form-control" id="imageInput" accept="image/*" name="image">
+                        <button type="submit" class="info-btn">Diagnose</button>
+                    </form>
+
+                    <div id="errorMessage"></div>
+
+                    <h5>DISCLAIMER</h5>
+                    <ul id="disclaimer" class="disclaimer">
+                        <p>
+                            <li> Upload a clear image of the plant leaf for accurate results.</li>
+                        </p>
+                        <p>
+                            <li> The model may take time to process; please wait patiently and avoid clicking multiple
+                                times.</li>
+                        </p>
+                        <p>
+                            <li> Results are AI-based and may not always be accurate. Use at your own risk.</li>
+                        </p>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Results Section -->
+    <div class="container" data-aos="zoom-in">
+        <section id="result" class="section">
+            <div class="content">
+                <div class="info">
+                    <h2>Diagnosis Results</h2>
+                    <p id="diseaseResult">Upload an image and click on Diagnose to see the results here.</p>
+                </div>
+            </div>
+        </section>
+        <div id="warning" class="mt-3"></div>
+    </div>
+    <script>
+        const form = document.getElementById('diagnoseForm');
+        const imageInput = document.getElementById('imageInput');
+        const resultDiv = document.getElementById('result');
+        const warningDiv = document.getElementById('warning'); 
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            const formData = new FormData(form);
+            formData.append('image', imageInput.files[0]);
+            console.log(formData.get('image')); 
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+                console.log(response);
+                if (response.ok) {
+                    const data = await response.json();
+                    const { label, score, diseaseDetails,warning } = data;
+                    const { description, possibleSteps, imageUrl, supplements } = diseaseDetails;
+
+                if (warning.length > 0) {
+                warningDiv.innerHTML = warning.map(w => `<p class="text-warning">${w}</p>`).join('');
+                } else {
+                warningDiv.innerHTML = '<p>No warnings.</p>';
+                }
+
+                    // Display the prediction and disease details
+                    resultDiv.innerHTML = `
+                        <h3>Diagnosis Result</h3><br>
+                        <p><strong>Disease:</strong> ${label}</p><br>
+                        <p><strong>Confidence:</strong> ${(score * 100).toFixed(2)}%</p><br>
+                        <p><strong>Description:</strong> ${description || 'No description available.'}</p><br>
+                        <p><strong>Possible Steps:</strong> ${possibleSteps || 'No steps provided.'}</p>
+                        <img src="${imageUrl}" alt="${label}" style="max-width: 50%; margin-top: 10px;" onerror="this.style.display='none';">
+                        <button id="speakButton" class="btn btn-primary">Speak Result</button>
+                        
+                        <h4>Supplements</h4>
+                        <ul>
+                            ${
+                              (supplements && supplements.length > 0)
+                                ? supplements.map(supp => `
+                                    <li>
+                                        <strong>${supp.name}</strong><br>
+                                        <img src="${supp.image}" alt="${supp.name}" style="max-width: 100px;" onerror="this.style.display='none';"><br>
+                                        <a href="${supp.buyLink}" target="_blank">Buy Now</a>
+                                    </li>
+                                  `).join('')
+                                : '<p>No supplements available for this disease.</p>'
+                            }
+                        </ul>
+                    `;
+                } else {
+                    const errortext= await response.text();
+                    resultDiv.innerHTML = `<p class="text-danger">${errortext}</p>`;
+                }
+            } catch (error) {
+                console.log('Error during diagnosis:', error);
+                resultDiv.innerHTML = '<p class="text-danger">Error: Something went wrong with the diagnosis.</p>';
+            }
+        });
+    </script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+        const userIcon = document.getElementById("icon");
+        const userMenu = document.querySelector(".user-menu");
+    
+        userIcon.addEventListener("click", function (event) {
+            // Toggle the visibility of the user menu
+            userMenu.classList.toggle("show");
+    
+            // Prevent the click from propagating to the document
+            event.stopPropagation();
+        });
+    
+        // Close the user menu when clicking anywhere outside
+        document.addEventListener("click", function () {
+            if (userMenu.classList.contains("show")) {
+                userMenu.classList.remove("show");
+            }
+        });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        AOS.init();
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        gsap.from(".info", { duration: 1, y: 50, opacity: 0, stagger: 0.3 });
+    });
+    
+    
+    </script>
+   
+
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlantPulse | History</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/jpg" href="images/Life.jpg">
+  <link rel="stylesheet" href="newstyle.css">
+</head>
+
+<body>
+  <div class="container" id="history-container" data-aos="zoom-in">
+    <section id="history" class="section">
+      <div class="content">
+        <div class="info">
+          <h2>History</h2>
+          <h3>User:<%= user %>
+          </h3>
+          <ul id="historyList"></ul>
+
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+    async function fetchHistory() {
+      const historyList = document.getElementById('historyList');
+      historyList.innerHTML = 'Loading...'; // Show a loading indicator
+
+
+      const response = await fetch('/history/data', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      try {
+        if (response.ok) {
+          const uploads = await response.json();
+          console.log(uploads);
+          if (uploads.length === 0) {
+            historyList.innerHTML = '<p>No history available.</p>';
+          } else {
+            historyList.innerHTML = uploads.map(upload => `
+                        <li>
+                            <strong>Uploaded Image:</strong> <br>
+                            <img src="${upload.imagePath}" alt="Uploaded Image" style="max-width: 150px; margin-top: 5px;" onerror="this.style.display='none';"><br>
+                            <strong>Diagnosis:</strong> ${upload.diseaseLabel}<br>
+                            <strong>Confidence:</strong> ${(upload.confidence * 100).toFixed(2)}%<br>
+                            <strong>Date:</strong> ${new Date(upload.timestamp).toLocaleString()}<br>
+                            
+                        </li>
+                        <hr>
+                    `).join('');
+          }
+        } else {
+          historyList.innerHTML = '<p class="text-danger">Failed to load history.</p>';
+        }
+      } catch (error) {
+        console.error('Error fetching history:', error);
+        historyList.innerHTML = '<p class="text-danger">Something went wrong.</p>';
+      }
+    }
+
+    // Fetch history when the page loads
+    document.addEventListener('DOMContentLoaded', fetchHistory);
+  </script>
+
+  <script>document.addEventListener("DOMContentLoaded", function () {
+      const userIcon = document.getElementById("icon");
+      const userMenu = document.querySelector(".user-menu");
+
+      userIcon.addEventListener("click", function (event) {
+        // Toggle the visibility of the user menu
+        userMenu.classList.toggle("show");
+
+        // Prevent the click from propagating to the document
+        event.stopPropagation();
+      });
+
+      // Close the user menu when clicking anywhere outside
+      document.addEventListener("click", function () {
+        if (userMenu.classList.contains("show")) {
+          userMenu.classList.remove("show");
+        }
+      });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+      AOS.init();
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+      gsap.from(".info", { duration: 1, y: 50, opacity: 0, stagger: 0.3 });
+    });
+
+
+  </script>
+</body>
+
+</html>

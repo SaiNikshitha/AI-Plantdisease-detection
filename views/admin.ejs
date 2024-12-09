@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="admin-dashboard">
+    <h1>Welcome, Admin!</h1>
+    <div class="overview-section">
+      <h2>Overview</h2>
+      <p id="total-users">Total Users: </p>
+      <p id="total-uploads">Total Uploads: </p>
+    </div>
+    <div class="user-section">
+      <h2>Manage Users</h2>
+      <table id="users-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="upload-section">
+      <h2>Manage Uploads</h2>
+      <table id="uploads-table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Image Path</th>
+            <th>Disease Label</th>
+            <th>Confidence</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+  <script src="admin-dashboard.js"></script>
+</body>
+</html>
