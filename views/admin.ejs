@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="admin-style.css">
 </head>
 <body>
   <div class="admin-dashboard">
@@ -47,24 +47,21 @@
   <script>
     async function fetchDashboardData() {
   try {
-  
-
-
-    // Fetch Users
+      // Fetch Users
     const usersRes = await fetch("/admin/users");
     const users = await usersRes.json();
     const usersTable = document.querySelector("#users-table tbody");
     users.data.forEach((user) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td>${user.name}</td>
+        <td>${user.username}</td>
         <td>${user.email}</td>
         <td>${user.role}</td>
         <td><button onclick="promoteUser('${user._id}')">Promote</button></td>
       `;
       usersTable.appendChild(row);
     });
-
+ 
     // Fetch Uploads
     const uploadsRes = await fetch("/admin/uploads");
     const uploads = await uploadsRes.json();
@@ -72,7 +69,7 @@
     uploads.data.forEach((upload) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td>${upload.userId?.name || "N/A"}</td>
+        <td>${upload.userId?.username || "N/A"}</td>
         <td>${upload.imagePath}</td>
         <td>${upload.diseaseLabel}</td>
         <td>${upload.confidence}</td>
@@ -112,6 +109,6 @@ async function deleteUpload(uploadId) {
 // Load data on page load
 fetchDashboardData();
 
-  </script>
+</script>
 </body>
 </html>

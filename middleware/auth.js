@@ -19,6 +19,7 @@ async function checkAuth(req, res, next) {
 
 function restrictto(roles=[]){
   return function(req,res,next){
+
     if(!req.user) 
       return res.redirect("/login");
 

@@ -5,7 +5,7 @@ router.use(express.json());
 
 
 router.get('/',async (req,res)=>{
-    console.log(req.user.username)
+    
     res.render('history',{user:req.user.username});
 })
 

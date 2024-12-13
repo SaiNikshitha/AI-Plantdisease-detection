@@ -54,7 +54,7 @@ app.use(passport.initialize());
 app.use('/node_modules', express.static('node_modules'));
 
 
-app.use('/history',restrictToLoggedinUserOnly,restrictto(["user"]),historyroute);
+app.use('/history',restrictToLoggedinUserOnly,restrictto(["user","admin"]),historyroute);
 app.use(express.static("public")); 
 app.use('/uploads', express.static('uploads'));
 
@@ -71,7 +71,7 @@ app.use('/auth',authroutes)
 
 
 //distinct
- 
+
 app.use('/upload',restrictToLoggedinUserOnly,restrictto(["user","admin"]),uploadroute);
 app.use('/',checkAuth,staticroute);
 

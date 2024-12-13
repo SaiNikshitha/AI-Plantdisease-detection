@@ -56,6 +56,8 @@ router.post('/login',async (req,res)=>{
       if (!isPasswordValid) {
         return res.status(401).json({ message: 'Invalid password' });
       }
+
+      
  
       const token=setUser(user);
       console.log('Setting cookie...')

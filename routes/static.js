@@ -29,6 +29,7 @@ router.get('/history',(req,res)=>{
   res.render('history');
 })
 
+
 router.get('/admin/history',restrictto(["admin"]),async (req,res)=>{
     const histories= await uploads.find().lean();
     res.json({data:histories});

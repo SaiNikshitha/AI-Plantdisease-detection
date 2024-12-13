@@ -1,0 +1,66 @@
+/* General table styling */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Removes double borders between cells */
+    margin-bottom: 20px;
+    background-color: #f9f9f9; /* Light background for tables */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for table */
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  /* Header styling */
+  thead th {
+    background-color: #4caf50; /* Green header background */
+    color: white; /* White text for header */
+    padding: 10px; /* Space inside the header cells */
+    text-align: left;
+    font-size: 16px;
+  }
+  
+  /* Table data styling */
+  tbody td {
+    padding: 15px; /* Adds space inside table cells */
+    border-bottom: 1px solid #ddd; /* Subtle border between rows */
+    font-size: 14px;
+  }
+  
+  /* Hover effect for rows */
+  tbody tr:hover {
+    background-color: #f1f1f1; /* Highlight row on hover */
+  }
+  
+  /* Action buttons */
+  button {
+    padding: 5px 10px; /* Padding for buttons */
+    border: none;
+    background-color: #007bff; /* Blue background for buttons */
+    color: white;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  /* Add spacing between sections */
+  .admin-dashboard .overview-section,
+  .admin-dashboard .user-section,
+  .admin-dashboard .upload-section {
+    margin-bottom: 30px;
+  }
+  
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    table {
+      font-size: 12px;
+    }
+  
+    thead th, tbody td {
+      padding: 10px;
+    }
+  }
+  

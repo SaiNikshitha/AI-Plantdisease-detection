@@ -21,6 +21,7 @@ passport.use(
             googleId: profile.id,
             username: profile.displayName,
             email: profile.emails[0].value,
+            role:'user',
           });
         }else if (!user.googleId) {
           // Link Google account to existing user
@@ -56,7 +57,7 @@ router.get(
     // Generate a JWT for the authenticated user
     console.log("in google callback block");
     console.log(req.user);
-    const token = jwt.sign({ _id: req.user._id,email:req.user.email }, 'gayathri@123', { expiresIn: '1h' });
+    const token = jwt.sign({ _id: req.user._id,email:req.user.email,role:req.user.role}, 'gayathri@123', { expiresIn: '1h' });
     res.cookie("uid",token);
     console.log("cookie set");
 

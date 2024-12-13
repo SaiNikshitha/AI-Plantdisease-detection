@@ -1,0 +1,112 @@
+/* newstyle.css */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 50px auto;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+    font-size: 36px;
+    color: #6b705c;
+    margin-bottom: 20px;
+  }
+  
+  h3 {
+    font-size: 24px;
+    color: #40513b;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fdfdfd;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  li img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px 0;
+  }
+  
+  li strong {
+    display: block;
+    color: #344e41;
+    margin-top: 5px;
+  }
+  
+  hr {
+    border: 0.5px solid #ddd;
+    margin: 15px 0;
+  }
+  
+  .text-danger {
+    color: red;
+  }
+
+  
+  footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #8e8e8e;
+    font-size: 14px;
+  }
+
+  #historyList {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping to the next row */
+    gap: 20px; /* Add space between items */
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+  }
+  
+  #historyList li {
+    flex: 1 1 calc(50% - 20px); /* Each item takes up 50% of the row minus the gap */
+    margin: 0;
+    background-color: #fdfdfd;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  #historyList li img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px 0;
+  }
+  
+  @media (max-width: 768px) {
+    #historyList li {
+      flex: 1 1 100%; /* On smaller screens, each item takes up the full width */
+    }
+  }
+  
+  

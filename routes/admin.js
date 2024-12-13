@@ -12,7 +12,7 @@ router.get("/", restrictto(["admin"]), async (req, res) => {
     const totalUsers = await User.countDocuments();
     const totalUploads = await Upload.countDocuments();
     const recentUploads = await Upload.find().sort({ timestamp: -1 }).limit(5).lean();
-    res.render('admin',{totalusers:totalUsers,totaluploads:totalUploads});
+    res.render('admin',{totalusers:totalUsers,totaluploads:totalUploads,user:req.user});
   } catch (error) {
     console.error("Error fetching overview:", error);
     res.status(500).json({ success: false, message: "Server Error" });
@@ -45,7 +45,7 @@ router.patch("/users/:id/role", restrictto(["admin"]), async (req, res) => {
 // View Upload History
 router.get("/uploads", restrictto(["admin"]), async (req, res) => {
   try {
-    const uploads = await Upload.find().populate("userId", "name email").lean();
+    const uploads = await Upload.find().populate("userId", "username email").lean();
     res.json({ success: true, data: uploads });
   } catch (error) {
     console.error("Error fetching uploads:", error);
